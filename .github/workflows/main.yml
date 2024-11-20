@@ -1,0 +1,23 @@
+name: Sync with HF Hub
+
+on: 
+ push:
+   branches: [main]
+ # to run this workflow mannually from Actions tab
+ workflow_dispatch:
+
+jobs:
+  sync_to-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Add Remote
+        env:
+          HF: ${{secrets.HF }}
+        run: git remote add space https://socaitcy:$HF@huggingface.co/spaces/socaitcy/meal-similarity
+      - name: Push to hub
+        env:
+          HF: ${{secrets.HF }}
+        run: git push --force https://socaitcy:$HF@huggingface.co/spaces/socaitcy/meal-similarity main
